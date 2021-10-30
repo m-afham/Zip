@@ -377,7 +377,7 @@ public class Zip {
                 
                 zipCloseFileInZip(zip)
                 if let bufferNotNil = buffer{
-                    free(buffer)
+                    free(buffer) 
                 }
                 fclose(input)
             }
