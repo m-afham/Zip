@@ -351,6 +351,9 @@ public class Zip {
                 }
                 catch {}
                 let buffer = malloc(chunkSize)
+                guard let buffer = malloc(chunkSize) else {
+                    fatalError("malloc returned null: Likely out of memory")
+                }
                 if let password = password, let fileName = fileName {
                     zipOpenNewFileInZip3(zip, fileName, &zipInfo, nil, 0, nil, 0, nil,Z_DEFLATED, compression.minizipCompression, 0, -MAX_WBITS, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY, password, 0)
                 }
@@ -376,9 +379,7 @@ public class Zip {
                 progressTracker.completedUnitCount = Int64(currentPosition)
                 
                 zipCloseFileInZip(zip)
-                if let bufferNotNil = buffer{
-                    free(buffer) 
-                }
+                free(buffer) 
                 fclose(input)
             }
         }
